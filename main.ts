@@ -73,7 +73,7 @@ export default class RemoveMultipleEmptyLinesPlugin extends Plugin {
 	async cleanEmptyLines(file: TFile) {
 		const fileContent = await this.app.vault.read(file);
 		this.previousContent = fileContent; // Save current content for undo
-		const cleanedContent = fileContent.replace(new RegExp(`\\n\\s*\\n{${this.settings.consecutiveLineThreshold},}`, 'g'), '\n\n');
+		const cleanedContent = fileContent.replace(new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g'), '\n\n');
 		await this.app.vault.modify(file, cleanedContent);
 		new Notice('Multiple empty lines removed');
 	}
