@@ -1,4 +1,4 @@
-# Remove Multiple Empty Lines Plugin for Obsidian
+# Newline Adjuster for Obsidian
 
 An Obsidian plugin to replace multiple empty lines with a single empty line, with preview and undo functionality.
 
@@ -13,22 +13,22 @@ An Obsidian plugin to replace multiple empty lines with a single empty line, wit
 
 1. **Download and Build the Plugin**:
     ```bash
-    git clone https://github.com/yourusername/obsidian-remove-empty-lines-plugin.git
-    cd obsidian-remove-empty-lines-plugin
+    git clone https://github.com/yourusername/newline-adjuster.git
+    cd newline-adjuster
     npm install
     npm run build
     ```
 
 2. **Copy to Your Obsidian Vault**:
     ```bash
-    cp -r obsidian-remove-empty-lines-plugin /path/to/your/vault/.obsidian/plugins/
+    cp -r newline-adjuster /path/to/your/vault/.obsidian/plugins/
     ```
 
 3. **Enable the Plugin**:
     - Open Obsidian.
     - Go to `Settings` > `Community plugins`.
     - Disable `Safe mode` if it is enabled.
-    - Find `Remove Multiple Empty Lines Plugin` and enable it.
+    - Find `Newline Adjuster` and enable it.
 
 ## Usage
 
@@ -47,7 +47,7 @@ You can adjust the plugin settings to specify the number of consecutive empty li
 
 1. **Open Settings**:
     - Click on the gear icon (⚙️) in the bottom left corner to open the settings menu.
-    - Navigate to `Community plugins` and find `Remove Multiple Empty Lines Plugin`.
+    - Navigate to `Community plugins` and find `Newline Adjuster`.
 
 2. **Adjust Consecutive Line Threshold**:
     - In the settings tab, find the option `Consecutive Line Threshold`.

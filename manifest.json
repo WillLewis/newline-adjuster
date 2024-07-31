@@ -1,31 +1,31 @@
 {
-	"id": "obsidian-remove-multiple-empty-lines-plugin",
-	"name": "Remove Multiple Empty Lines Plugin",
-	"version": "1.1.0",
-	"minAppVersion": "0.12.0",
-	"description": "An Obsidian plugin to replace multiple empty lines with a single empty line, with preview and undo functionality.",
-	"author": "Will Lewis",
-	"authorUrl": "https://webmocha.com",
-	"isDesktopOnly": false,
-	"js": "main.js",
-	"manifestVersion": 1,
-	"commands": [
-		{
-			"id": "remove-multiple-empty-lines",
-			"name": "Remove Multiple Empty Lines",
-			"icon": "dice",
-			"checkCallback": true
-		},
-		{
-			"id": "preview-changes",
-			"name": "Preview Changes",
-			"checkCallback": true
-		},
-		{
-			"id": "undo-last-change",
-			"name": "Undo Last Change",
-			"checkCallback": true
-		}
-	]
+    "id": "newline-adjuster",
+    "name": "Newline Adjuster",
+    "version": "1.1.1",
+    "minAppVersion": "0.12.0",
+    "description": "Fine-grained replacement of newlines, with preview and undo functionality.",
+    "author": "Will Lewis",
+    "authorUrl": "https://webmocha.com",
+    "isDesktopOnly": false,
+    "js": "main.js",
+    "manifestVersion": 1,
+    "commands": [
+        {
+            "id": "newline-adjuster",
+            "name": "Adjust Newlines",
+            "icon": "dice",
+            "checkCallback": true
+        },
+        {
+            "id": "preview-changes",
+            "name": "Preview Changes",
+            "checkCallback": true
+        },
+        {
+            "id": "undo-last-change",
+            "name": "Undo Last Change",
+            "checkCallback": true
+        }
+    ]
 }
 
