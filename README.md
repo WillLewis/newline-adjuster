@@ -1,96 +1,82 @@
-# Obsidian Sample Plugin
+# Remove Multiple Empty Lines Plugin for Obsidian
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+An Obsidian plugin to replace multiple empty lines with a single empty line, with preview and undo functionality.
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+- **Remove Multiple Empty Lines**: Automatically replace multiple consecutive empty lines in a document with a single empty line.
+- **Preview Changes**: Preview the changes before applying them.
+- **Undo Last Change**: Undo the last change made by the plugin.
+- **Configurable Threshold**: Set the number of consecutive empty lines to search for and replace.
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+## Installation
 
-## First time developing plugins?
+1. **Download and Build the Plugin**:
+    ```bash
+    git clone https://github.com/yourusername/obsidian-remove-empty-lines-plugin.git
+    cd obsidian-remove-empty-lines-plugin
+    npm install
+    npm run build
+    ```
 
-Quick starting guide for new plugin devs:
+2. **Copy to Your Obsidian Vault**:
+    ```bash
+    cp -r obsidian-remove-empty-lines-plugin /path/to/your/vault/.obsidian/plugins/
+    ```
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+3. **Enable the Plugin**:
+    - Open Obsidian.
+    - Go to `Settings` > `Community plugins`.
+    - Disable `Safe mode` if it is enabled.
+    - Find `Remove Multiple Empty Lines Plugin` and enable it.
 
-## Releasing new releases
+## Usage
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+### Ribbon Icon
+- Click the dice icon in the left sidebar to remove multiple empty lines in the active document.
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+### Command Palette
+- Open the command palette (Ctrl+P or Cmd+P) and run the following commands:
+    - **Remove Multiple Empty Lines**: Replace multiple empty lines in the active document.
+    - **Preview Changes**: Preview the changes before applying them.
+    - **Undo Last Change**: Undo the last change made by the plugin.
 
-## Adding your plugin to the community plugin list
+### Settings
 
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+You can adjust the plugin settings to specify the number of consecutive empty lines to search for and replace.
 
-## How to use
+1. **Open Settings**:
+    - Click on the gear icon (⚙️) in the bottom left corner to open the settings menu.
+    - Navigate to `Plugin Options` and find `Remove Multiple Empty Lines Plugin`.
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+2. **Adjust Consecutive Line Threshold**:
+    - In the settings tab, find the option `Consecutive Line Threshold`.
+    - Enter the number of consecutive empty lines you want the plugin to search for and replace. For example, enter `4` to replace any instance of 4 or more consecutive empty lines with a single empty line.
 
-## Manually installing the plugin
+## Development
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+### Building the Plugin
+To build the plugin from source, follow these steps:
 
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+1. **Install Dependencies**:
+    ```bash
+    npm install
+    ```
 
-## Funding URL
+2. **Build the Plugin**:
+    ```bash
+    npm run build
+    ```
 
-You can include funding URLs where people who use your plugin can financially support it.
+### Contributing
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
+Contributions are welcome! Please open an issue or submit a pull request with your improvements or bug fixes.
 
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
-```
+## License
 
-If you have multiple URLs, you can also do:
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
+## Author
 
-## API Documentation
+Will Lewis - willxemail@gmail.com [Webmocha](https://webmocha.com)
 
-See https://github.com/obsidianmd/obsidian-api
