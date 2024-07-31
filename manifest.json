@@ -1,11 +1,31 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
-	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
-	"isDesktopOnly": false
+	"id": "obsidian-remove-multiple-empty-lines-plugin",
+	"name": "Remove Multiple Empty Lines Plugin",
+	"version": "1.1.0",
+	"minAppVersion": "0.12.0",
+	"description": "An Obsidian plugin to replace multiple empty lines with a single empty line, with preview and undo functionality.",
+	"author": "Will Lewis",
+	"authorUrl": "https://webmocha.com",
+	"isDesktopOnly": false,
+	"js": "main.js",
+	"manifestVersion": 1,
+	"commands": [
+		{
+			"id": "remove-multiple-empty-lines",
+			"name": "Remove Multiple Empty Lines",
+			"icon": "dice",
+			"checkCallback": true
+		},
+		{
+			"id": "preview-changes",
+			"name": "Preview Changes",
+			"checkCallback": true
+		},
+		{
+			"id": "undo-last-change",
+			"name": "Undo Last Change",
+			"checkCallback": true
+		}
+	]
 }
+
