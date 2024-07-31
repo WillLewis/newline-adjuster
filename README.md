@@ -47,11 +47,13 @@ You can adjust the plugin settings to specify the number of consecutive empty li
 
 1. **Open Settings**:
     - Click on the gear icon (⚙️) in the bottom left corner to open the settings menu.
-    - Navigate to `Plugin Options` and find `Remove Multiple Empty Lines Plugin`.
+    - Navigate to `Community plugins` and find `Remove Multiple Empty Lines Plugin`.
 
 2. **Adjust Consecutive Line Threshold**:
     - In the settings tab, find the option `Consecutive Line Threshold`.
     - Enter the number of consecutive empty lines you want the plugin to search for and replace. For example, enter `4` to replace any instance of 4 or more consecutive empty lines with a single empty line.
+
+    ![Settings Screenshot](settings-screenshot.png)
 
 ## Development
 
