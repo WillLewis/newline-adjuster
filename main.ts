@@ -1,4 +1,4 @@
-import { App, Plugin, PluginSettingTab, Setting, Notice, TFile, Modal } from 'obsidian';
+import { App, Plugin, PluginSettingTab, Setting, Notice, TFile, Modal, Editor, MarkdownView } from 'obsidian';
 
 // Interface for Plugin Settings
 interface RemoveMultipleEmptyLinesSettings {
@@ -71,11 +71,17 @@ export default class RemoveMultipleEmptyLinesPlugin extends Plugin {
 	}
 
 	async cleanEmptyLines(file: TFile) {
-		const fileContent = await this.app.vault.read(file);
-		this.previousContent = fileContent; // Save current content for undo
-		const cleanedContent = fileContent.replace(new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g'), '\n\n');
-		await this.app.vault.modify(file, cleanedContent);
-		new Notice('Multiple empty lines removed');
+		const activeLeaf = this.app.workspace.activeLeaf;
+		if (activeLeaf) {
+			const view = activeLeaf.view as MarkdownView;
+			const editor = view.editor;
+			const doc = editor.getDoc();
+			const fileContent = doc.getValue();
+			this.previousContent = fileContent; // Save current content for undo
+			const cleanedContent = fileContent.replace(new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g'), '\n\n');
+			doc.setValue(cleanedContent);
+			new Notice('Multiple empty lines removed');
+		}
 	}
 
 	async previewChanges(file: TFile) {
@@ -120,10 +126,8 @@ class RemoveMultipleEmptyLinesSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
-		containerEl.createEl('h2', { text: 'Settings for Remove Multiple Empty Lines Plugin' });
-
 		new Setting(containerEl)
-			.setName('Consecutive Line Threshold')
+			.setName('Consecutive line threshold')
 			.setDesc('Number of consecutive empty lines to replace with a single empty line.')
 			.addText(text => text
 				.setPlaceholder('Enter number of lines')
