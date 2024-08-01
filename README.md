@@ -10,6 +10,12 @@ An Obsidian plugin to replace multiple empty lines with configurable newlines, w
 - **Configurable Threshold**: Set the number of consecutive empty lines to search for and replace.
 - **Configurable Replacement**: Choose whether to replace multiple empty lines with one newline or two newlines.
 
+## Video Demonstration
+https://www.loom.com/share/5f29a5b93168400ba1476f0b8b88b07a?sid=bb19a67f-21a7-4c8a-a2ac-c7fbca6aca39
+Watch this video to see the Newline Adjuster plugin in action:
+
+<div style="position: relative; padding-bottom: 96.51474530831098%; height: 0;"><iframe src="https://www.loom.com/embed/5f29a5b93168400ba1476f0b8b88b07a?sid=74d083c1-03fe-4505-8f9a-d0eaa829f7d8" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
 ## Installation
 
 1. **Download and Build the Plugin**:
