@@ -18,32 +18,30 @@ export default class NewlineAdjusterPlugin extends Plugin {
     async onload() {
         await this.loadSettings();
 
-        // Add Ribbon Icon for Adjusting Newlines
-        this.addRibbonIcon('dice', 'Adjust Newlines', async () => {
-            const activeFile = this.app.workspace.getActiveFile();
-            if (activeFile) {
-                await this.adjustNewlines(activeFile);
-            }
-        });
+    // Add Ribbon Icons grouped together
+    this.addRibbonIcon('dice', 'Adjust Newlines', async () => {
+        const activeFile = this.app.workspace.getActiveFile();
+        if (activeFile) {
+            await this.adjustNewlines(activeFile);
+        }
+    });
 
-        // Add Ribbon Icon for Preview Changes
-        this.addRibbonIcon('eye', 'Preview Changes', async () => {
-            const activeFile = this.app.workspace.getActiveFile();
-            if (activeFile) {
-                await this.previewChanges(activeFile);
-            }
-        });
+    this.addRibbonIcon('eye', 'Preview Changes', async () => {
+        const activeFile = this.app.workspace.getActiveFile();
+        if (activeFile) {
+            await this.previewChanges(activeFile);
+        }
+    });
 
-        // Add Ribbon Icon for Undo Last Change
-        this.addRibbonIcon('undo', 'Undo Last Change', async () => {
-            const activeFile = this.app.workspace.getActiveFile();
-            if (activeFile && this.previousContent) {
-                await this.app.vault.modify(activeFile, this.previousContent);
-                new Notice('Last change undone');
-            } else {
-                new Notice('No previous change to undo');
-            }
-        });
+    this.addRibbonIcon('undo', 'Undo Last Change', async () => {
+        const activeFile = this.app.workspace.getActiveFile();
+        if (activeFile && this.previousContent) {
+            await this.app.vault.modify(activeFile, this.previousContent);
+            new Notice('Last change undone');
+        } else {
+            new Notice('No previous change to undo');
+        }
+    });
 
         // Add Commands
         this.addCommand({
