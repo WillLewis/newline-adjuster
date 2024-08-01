@@ -16,11 +16,30 @@ export default class NewlineAdjusterPlugin extends Plugin {
     async onload() {
         await this.loadSettings();
 
-        // Add Ribbon Icon
+        // Add Ribbon Icon for Adjust Newlines
         this.addRibbonIcon('dice', 'Adjust Newlines', async () => {
             const activeFile = this.app.workspace.getActiveFile();
             if (activeFile) {
                 await this.adjustNewlines(activeFile);
+            }
+        });
+
+        // Add Ribbon Icon for Preview Changes
+        this.addRibbonIcon('eye', 'Preview Newline Changes', async () => {
+            const activeFile = this.app.workspace.getActiveFile();
+            if (activeFile) {
+                await this.previewChanges(activeFile);
+            }
+        });
+
+        // Add Ribbon Icon for Undo Last Change
+        this.addRibbonIcon('undo', 'Undo Last Newline Adjustment', async () => {
+            const activeFile = this.app.workspace.getActiveFile();
+            if (activeFile && this.previousContent) {
+                await this.app.vault.modify(activeFile, this.previousContent);
+                new Notice('Last change undone');
+            } else {
+                new Notice('No previous change to undo');
             }
         });
 
