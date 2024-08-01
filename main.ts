@@ -16,7 +16,7 @@ export default class NewlineAdjusterPlugin extends Plugin {
     async onload() {
         await this.loadSettings();
 
-        // Add Ribbon Icon for Adjust Newlines
+        // Add Ribbon Icon for Adjusting Newlines
         this.addRibbonIcon('dice', 'Adjust Newlines', async () => {
             const activeFile = this.app.workspace.getActiveFile();
             if (activeFile) {
@@ -25,7 +25,7 @@ export default class NewlineAdjusterPlugin extends Plugin {
         });
 
         // Add Ribbon Icon for Preview Changes
-        this.addRibbonIcon('eye', 'Preview Newline Changes', async () => {
+        this.addRibbonIcon('eye', 'Preview Changes', async () => {
             const activeFile = this.app.workspace.getActiveFile();
             if (activeFile) {
                 await this.previewChanges(activeFile);
@@ -33,7 +33,7 @@ export default class NewlineAdjusterPlugin extends Plugin {
         });
 
         // Add Ribbon Icon for Undo Last Change
-        this.addRibbonIcon('undo', 'Undo Last Newline Adjustment', async () => {
+        this.addRibbonIcon('undo', 'Undo Last Change', async () => {
             const activeFile = this.app.workspace.getActiveFile();
             if (activeFile && this.previousContent) {
                 await this.app.vault.modify(activeFile, this.previousContent);
@@ -43,7 +43,18 @@ export default class NewlineAdjusterPlugin extends Plugin {
             }
         });
 
-        // Add Command for Preview Changes
+        // Add Commands
+        this.addCommand({
+            id: 'adjust-newlines',
+            name: 'Adjust Newlines',
+            callback: async () => {
+                const activeFile = this.app.workspace.getActiveFile();
+                if (activeFile) {
+                    await this.adjustNewlines(activeFile);
+                }
+            }
+        });
+
         this.addCommand({
             id: 'preview-changes',
             name: 'Preview Changes',
@@ -55,7 +66,6 @@ export default class NewlineAdjusterPlugin extends Plugin {
             }
         });
 
-        // Add Command for Undo Last Change
         this.addCommand({
             id: 'undo-last-change',
             name: 'Undo Last Change',
@@ -90,14 +100,22 @@ export default class NewlineAdjusterPlugin extends Plugin {
     }
 
     async adjustNewlines(file: TFile) {
-        const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-        if (view) {
+        const activeLeaf = this.app.workspace.activeLeaf;
+        if (activeLeaf) {
+            const view = activeLeaf.view as MarkdownView;
             const editor = view.editor;
-            const fileContent = editor.getValue();
+            const doc = editor.getDoc();
+            const fileContent = doc.getValue();
             this.previousContent = fileContent; // Save current content for undo
-            const cleanedContent = fileContent.replace(new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g'), '\n\n');
-            editor.setValue(cleanedContent);
-            new Notice('Multiple empty lines removed');
+            
+            // Replace multiple newlines and track changes
+            const regex = new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g');
+            const matches = fileContent.match(regex);
+            const changeCount = matches ? matches.length : 0;
+            const cleanedContent = fileContent.replace(regex, '\n\n');
+            
+            doc.setValue(cleanedContent);
+            new Notice(`Adjusted ${changeCount} instances of multiple empty lines.`);
         }
     }
 

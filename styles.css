@@ -1,8 +1,21 @@
-/*
+.newline-adjuster-preview-container {
+    display: flex;
+    height: 400px;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.newline-adjuster-preview-original,
+.newline-adjuster-preview-adjusted {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid var(--background-modifier-border);
+}
 
-If your plugin does not need CSS, delete this file.
+.newline-adjuster-preview-original {
+    margin-right: 10px;
+}
 
-*/
+.newline-adjuster-preview-container pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
