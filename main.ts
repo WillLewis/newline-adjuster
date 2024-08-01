@@ -3,10 +3,12 @@ import { App, Plugin, PluginSettingTab, Setting, Notice, TFile, Modal, MarkdownV
 // Interface for Plugin Settings
 interface NewlineAdjusterSettings {
     consecutiveLineThreshold: number;
+    replacementNewlines: number;
 }
 
 const DEFAULT_SETTINGS: NewlineAdjusterSettings = {
-    consecutiveLineThreshold: 3
+    consecutiveLineThreshold: 3,
+    replacementNewlines: 2
 }
 
 export default class NewlineAdjusterPlugin extends Plugin {
@@ -112,7 +114,8 @@ export default class NewlineAdjusterPlugin extends Plugin {
             const regex = new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g');
             const matches = fileContent.match(regex);
             const changeCount = matches ? matches.length : 0;
-            const cleanedContent = fileContent.replace(regex, '\n\n');
+            const replacement = '\n'.repeat(this.settings.replacementNewlines);
+            const cleanedContent = fileContent.replace(regex, replacement);
             
             doc.setValue(cleanedContent);
             new Notice(`Adjusted ${changeCount} instances of multiple empty lines.`);
@@ -121,25 +124,38 @@ export default class NewlineAdjusterPlugin extends Plugin {
 
     async previewChanges(file: TFile) {
         const fileContent = await this.app.vault.read(file);
-        const cleanedContent = fileContent.replace(new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g'), '\n\n');
-        new PreviewModal(this.app, cleanedContent).open();
+        const regex = new RegExp(`(\n\\s*){${this.settings.consecutiveLineThreshold},}`, 'g');
+        const replacement = '\n'.repeat(this.settings.replacementNewlines);
+        const cleanedContent = fileContent.replace(regex, replacement);
+        new PreviewModal(this.app, fileContent, cleanedContent).open();
     }
 }
 
 // Modal for previewing changes
 class PreviewModal extends Modal {
-    content: string;
+    originalContent: string;
+    adjustedContent: string;
 
-    constructor(app: App, content: string) {
+    constructor(app: App, originalContent: string, adjustedContent: string) {
         super(app);
-        this.content = content;
+        this.originalContent = originalContent;
+        this.adjustedContent = adjustedContent;
     }
 
     onOpen() {
         const { contentEl } = this;
         contentEl.empty();
         contentEl.createEl('h2', { text: 'Preview of Changes' });
-        contentEl.createEl('pre', { text: this.content.slice(0, 200) + '...' });
+
+        const container = contentEl.createDiv({ cls: 'newline-adjuster-preview-container' });
+        const originalDiv = container.createDiv({ cls: 'newline-adjuster-preview-original' });
+        const adjustedDiv = container.createDiv({ cls: 'newline-adjuster-preview-adjusted' });
+
+        originalDiv.createEl('h3', { text: 'Original' });
+        adjustedDiv.createEl('h3', { text: 'Adjusted' });
+
+        originalDiv.createEl('pre', { text: this.originalContent });
+        adjustedDiv.createEl('pre', { text: this.adjustedContent });
     }
 
     onClose() {
@@ -163,12 +179,24 @@ class NewlineAdjusterSettingTab extends PluginSettingTab {
         containerEl.empty();
         new Setting(containerEl)
             .setName('Consecutive line threshold')
-            .setDesc('Number of consecutive empty lines to replace with a single empty line.')
+            .setDesc('Number of consecutive empty lines to trigger replacement.')
             .addText(text => text
                 .setPlaceholder('Enter number of lines')
                 .setValue(this.plugin.settings.consecutiveLineThreshold.toString())
                 .onChange(async (value) => {
                     this.plugin.settings.consecutiveLineThreshold = parseInt(value, 10);
+                    await this.plugin.saveSettings();
+                }));
+
+        new Setting(containerEl)
+            .setName('Replacement newlines')
+            .setDesc('Number of newlines to replace with (1 or 2).')
+            .addDropdown(dropdown => dropdown
+                .addOption('1', '1 newline')
+                .addOption('2', '2 newlines')
+                .setValue(this.plugin.settings.replacementNewlines.toString())
+                .onChange(async (value) => {
+                    this.plugin.settings.replacementNewlines = parseInt(value, 10);
                     await this.plugin.saveSettings();
                 }));
     }
