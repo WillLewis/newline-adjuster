@@ -1,7 +1,7 @@
 {
     "id": "newline-adjuster",
     "name": "Newline Adjuster",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "minAppVersion": "0.12.0",
     "description": "Fine-grained replacement of newlines, with preview and undo functionality.",
     "author": "Will Lewis",
